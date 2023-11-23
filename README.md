@@ -4,7 +4,7 @@ This tool exists as a concrete, complete example of
 a Rust command line tool that interacts with AWS.
 
 I do not think this running tool is very useful.
-My plan is to use this a sort-of template when
+My plan is to use this as a sort-of template when
 writing AWS command line tools in the future.
 
 ## Built in help
