@@ -1,5 +1,7 @@
+use std::time::Duration;
+
 use anyhow::{Context, Result};
-use aws_config::{BehaviorVersion, SdkConfig};
+use aws_config::{identity::IdentityCache, BehaviorVersion, SdkConfig};
 use aws_sdk_sts::Client;
 use aws_types::region::Region;
 use clap::Parser;
@@ -32,7 +34,11 @@ struct MyArgs {
 }
 
 async fn aws_sdk_config(args: &MyArgs) -> SdkConfig {
-    let base = aws_config::defaults(BehaviorVersion::latest());
+    let base = aws_config::defaults(BehaviorVersion::latest()).identity_cache(
+        IdentityCache::lazy()
+            .load_timeout(Duration::from_secs(90))
+            .build(),
+    );
     let with_profile = match &args.profile {
         None => base,
         Some(profile_name) => base.profile_name(profile_name),
